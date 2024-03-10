@@ -259,6 +259,7 @@ p.mainTexto {
 }
 
 p.centerTexto {
+    padding-inline: 6.25rem;
     margin-block: 1rem;
     text-align: center;
 }
