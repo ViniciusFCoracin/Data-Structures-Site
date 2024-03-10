@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Dois structs </title>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link rel="stylesheet" href="../../estilos.css">
+</head>
+<body id="topo">
+    <nav class="bigScreensMenu inCodePage">
+        <ul class="inBigScreenMenu">
+            <li class="bigMenuDropdown">
+                <a class="inBigScreenMenu"> Guias <span class="triangle"> ▼ </span></a>
+                <ul class="bigDroppedMenu">
+                    <li> <a class="inBigScreenMenu" href="main_listas.html"> Listas Encadeadas </a> </li>
+                    <li> <a class="inBigScreenMenu" href="../arvores/main_arvores.html"> Árvores </a> </li>
+                    <li> <a class="inBigScreenMenu" href="../hash table/main_hash.html"> Hash Table </a> </li>
+                    <li> <a class="inBigScreenMenu" href="../grafos/main_grafos.html"> Grafos </a> </li>
+                    <li> <a class="inBigScreenMenu" href="../miscelanea/main_misc.html"> Outras Estruturas </a> </li>
+                    <li> <a class="inBigScreenMenu" href="../../algoritmos.html"> Algoritmos </a> </li>
+                </ul>
+            </li>
+            <li> <a class="inBigScreenMenu" href="../../index.html"> Home </a> </li>
+            <li> <a class="inBigScreenMenu" href="../../referencias.html"> Referências </a> </li>
+            <li> <a class="inBigScreenMenu" href="../../quem_sou.html"> Quem sou </a> </li>
+        </ul>
+    </nav>
+    <nav class="smallScreensMenu">
+        <input type="checkbox" class="hamburguerFakeTrigger">
+        <div class="hamburguerLines">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="mainHamburguerMenu">
+            <li>
+                <div class="trigger">
+                    <input type="checkbox" class="dropdownFakeTrigger">
+                    <a> Guias <span class="triangle"> ▼ </span></a></a>
+                    <ul class="dropdownHamburguerMenu">
+                        <li> <a href="main_listas.html"> Listas Encadeadas </a> </li>
+                        <li> <a href="../arvores/main_arvores.html"> Árvores </a> </li>
+                        <li> <a href="../hash table/main_hash.html"> Hash Table </a> </li>
+                        <li> <a href="../grafos/main_grafos.html"> Grafos </a> </li>
+                        <li> <a href="../miscelanea/main_misc.html"> Outras Estruturas </a> </li>
+                        <li> <a href="../../algoritmos.html"> Algoritmos </a> </li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="../../index.html"> Home </a></li>
+            <li><a href="../../referencias.html"> Referências </a></li>
+            <li><a href="../../quem_sou.html"> Quem sou </a></li>
+        </ul>
+    </nav>
+    <main>
+        <h1> Listas Encadeadas com dois structs </h1>
+        <p class="mainTexto"> ...Nessa implementação, usaremos dois structs: um para representar os nós, 
+            e outro para representar a lista em si...
+        </p>
+        <p class="mainTexto"> Confira o código da implementação abaixo: </p>
+        <p class="codeFile"> Arquivo .h </p>
+        <section class="codeSection">
+            <pre class="code">
+<code class="coment">/*</code>
+<code class="coment">two-structs.h</code>
+<code class="coment">Declaration for a simple linked list, using one struct for the nodes</code>
+<code class="coment">and one for the list.</code>
+<code class="coment">*/</code>
+
+
+#ifndef TWO_STRUCTS
+#define TWO_STRUCTS
+
+struct node{
+double data;   <code class="coment">// The data to be stored</code>
+struct node* next;   <code class="coment">// A pointer to the next element</code>
+};
+typedef struct node node;
+
+typedef struct{
+node* head;  <code class="coment">// A pointer to the first element of the list</code>
+} list;
+
+
+<code class="coment">/* Create an empty list and returns a pointer to it. */</code>
+list* create_list(void);
+
+<code class="coment">/* Adds an element in the start of the list.</code>
+<code class="coment">If it is successful, returns 1, else, returns 0. */</code>
+int inject(list* L, double x);
+
+<code class="coment">/* Adds an element in the end of the list.</code>
+<code class="coment">If it is successful, returns 1, else, returns 0. */</code>
+int push(list* L, double x);
+
+<code class="coment">/* Removes the first element of the list and returns it.</code>
+<code class="coment">If the list is empty the behavior is undefined. */</code>
+double eject(list* L);
+
+<code class="coment">/* Removes the last element of the list and returns it.</code>
+<code class="coment">If the list is empty, the behavior is undefined. */</code>
+double pop(list* L);
+
+<code class="coment">/*  Insert an element at the position k. </code>
+<code class="coment">If the position is not in thr range of the list, the</code>
+<code class="coment">behavior is undefined. */</code>
+void insert_at_k(list* L, int k, double x);
+
+<code class="coment">/*  Remove the element at position k. If k is out of range,</code>
+<code class="coment">then the behavior is undefined. */</code>
+double remove_at_k(list* L, int k);
+
+<code class="coment">/* Prints the elements of the list in order. */</code>
+void print_list(list* L);
+
+<code class="coment">/* Returns the size of the list .*/</code>
+int size(list* L);
+
+<code class="coment">/* Return 1 if the two given lists are equal in length,</code>
+<code class="coment">elements and order of the elements. Else, return zero.*/</code>
+int compare_lists(list* L, list* M);
+
+<code class="coment">/* Reverses the elements of the list, starting in the</code>
+<code class="coment">index i and stoping in the index j, including these. */</code>
+void reverse(list* L, int i, int j);
+
+<code class="coment">/* Transposes the sublist from indexes i to j to the</code>
+<code class="coment">right of the position of index k. If k == -1, so the </code>
+<code class="coment">sublist is transposed to the start of the list L. */</code>
+void transpose(list* L, int i, int j, int k);
+
+#endif        
+            </pre>
+        </section>
+        <p class="codeFile"> Arquivo .c </p>
+        <section class="codeSection">
+            <pre class="code">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "two-structs.h"
+
+
+list* create_list(void){
+    list* new_list = (list*) malloc(sizeof(list));
+    new_list -&gt; head = NULL;
+
+    return new_list;
+}
+
+
+int inject(list* L, double x){
+    node* new_node = (node*) malloc(sizeof(node));
+
+    if (new_node == NULL){
+        return 0;
+    }
+    else{
+        new_node -&gt; data = x;
+        new_node -&gt; next = L -&gt; head;
+        L -&gt; head = new_node;
+        return 1;
+    }
+}
+
+
+int push(list* L, double x){
+    node* new_node = (node*) malloc(sizeof(node));
+    if (new_node == NULL){
+        return 0;
+    }
+    new_node -&gt; data = x;
+    new_node -&gt; next = NULL;
+
+    if (L -&gt; head == NULL){  <code class="coment">// If the list is empty</code>
+        L -&gt;head = new_node;
+        new_node -&gt; next = NULL;
+    }
+    else{
+        node* p = L -&gt; head;
+        while (p -&gt; next != NULL){
+            p = p -&gt; next;
+        }
+        p -&gt; next = new_node;
+    }
+
+    return 1;
+}
+
+
+double eject(list* L){
+    double element = L -&gt; head -&gt; data;
+
+    node* p = L -&gt; head;
+    L -&gt; head = L -&gt; head -&gt; next;
+    free(p);
+
+    return element;
+}
+
+
+double pop(list* L){
+    double element;
+    if (L -&gt; head -&gt; next == NULL) {  <code class="coment">// if there is only one element</code>
+    element = L -&gt; head -&gt; data;
+    free(L -&gt; head);
+    L -&gt; head = NULL;
+  }
+  else{
+    node* p = L -&gt; head;
+    while (p -&gt; next -&gt; next != NULL) {
+    	p = p -&gt; next;
+    }
+
+    element = p -&gt; next -&gt; data;
+    free(p -&gt; next);
+    p -&gt; next = NULL;
+  }
+
+  return element;
+}
+
+
+void insert_at_k(list* L, int k, double x){
+	if (k == 0){
+		inject(L, x);
+		return;
+	}
+
+	node* np = L -&gt; head;
+	for (int i = 0; i &lt; k - 1 && np != NULL; i++){
+		np = np -&gt; next;
+	}
+
+	node* new_node = (node*) malloc(sizeof(node));
+	new_node -&gt; data = x;
+	new_node -&gt; next = np -&gt; next;
+	np -&gt; next = new_node;	
+}
+
+
+double remove_at_k(list* L, int k){
+	double element;
+
+	if (k == 0){
+		element = eject(L);
+		return element;
+	}
+
+	node* np = L -&gt; head;
+	for (int i = 0; i &lt; k - 1; i++){
+		np = np -&gt; next;
+	}
+
+	node* aux = np -&gt; next;
+	element = aux -&gt; data;
+	np -&gt; next = aux -&gt; next;
+	free(aux);
+
+	return element;
+}
+
+
+void print_list(list* L){
+    if (L -&gt; head == NULL){
+		printf("Empty list.\n");
+		return;
+    }
+
+    node* p = L -&gt; head;
+    while (p != NULL){
+        printf("%.1lf ", p -&gt; data);
+        p = p -&gt; next;
+    }
+    printf("\n");
+}
+
+
+int size(list* L){
+    if (L -&gt; head == NULL){  <code class="coment">// If the list is empty</code>
+        return 0;
+    }
+    
+    node* p = (node*) malloc(sizeof(node));
+    p = L -&gt; head;
+    int counter = 0;
+    while (p != NULL){
+        p = p -&gt; next;
+        counter++;
+    }
+
+    return counter;
+}
+
+int compare_lists(list* L, list* M){
+    if (size(L) != size(M)) return 0;
+
+    node* lnp = L -&gt; head;
+    node* mnp = M -&gt; head;
+    for (; lnp != NULL; lnp = lnp -&gt; next, mnp = mnp -&gt; next){
+        if (lnp -&gt; data != mnp -&gt; data) return 0;
+    }
+
+    return 1;
+}
+
+void reverse(list* L, int i, int j){
+    if (i &gt;= j) return;
+
+    node* np = L -&gt; head;
+    node* first;  <code class="coment">// The element before the first reverted</code>
+
+    if (i != 0){
+        <code class="coment">// Stops one before the first</code>
+        for (int n = 0; n &lt; i - 1; n++){
+            np = np -&gt; next;
+        }
+        first = np;
+
+        for (int n = i - 1; n &lt; j; n++){
+            np = np -&gt; next;
+        }
+        node* last = np;  <code class="coment">// Finds the last element to be reverted</code>
+        node* after_last = np -&gt; next;  <code class="coment">// Finds the element after the last</code>
+
+        int last_index = j;
+        while (last_index != i){
+            np = first;
+            for (int n = i - 1; n &lt; last_index - 1; n++){
+                np = np -&gt; next; 
+            }
+            np -&gt; next -&gt; next = np;
+            last_index--;
+        }
+        first -&gt; next -&gt; next = after_last;
+        first -&gt; next = last;
+    }
+
+    else{
+        first = L -&gt; head;
+
+        for (int n = 0; n &lt; j; n++){
+            np = np -&gt; next;
+        }
+        node* last = np;  <code class="coment">// Finds the last element to be reverted</code>
+        node* after_last = np -&gt; next;  <code class="coment">// Finds the element after the last</code>
+
+        int last_index = j;
+        while (last_index != 0){
+            np = first;
+            for (int n = 0; n &lt; last_index - 1; n++){
+                np = np -&gt; next; 
+            }
+            np -&gt; next -&gt; next = np;
+            last_index--;
+        }
+        L -&gt; head = last;
+        first -&gt; next -&gt; next = first;
+        first -&gt; next = after_last;
+    }
+}
+
+void transpose(list* L, int i, int j, int k){
+    if (i &gt;= j) return;
+
+    if (k != -1){
+        node* np;
+        node* index_k, *after_index_k;
+        node* start, *end;
+        node* after_end;
+
+        for (int n = 0; (n &lt;= j && j &gt; k) || (n &lt;= k && k &gt; j); n++){
+            if (n == k - 1) index_k = np -&gt; next;
+            else if (n == k) after_index_k = np -&gt; next;
+            else if (n == i - 1) start = np -&gt; next;
+            else if (n == j - 1) end = np -&gt; next;
+            else if (n == j) after_end = np -&gt; next;
+            np = np -&gt; next;
+        }
+
+        index_k -&gt; next = start;
+        end -&gt; next = after_index_k;
+        after_index_k -&gt; next = after_end;
+    }
+    else{
+        node* np;
+        node* start, *end;
+        node* after_end;
+
+        for (int n = 0; n &lt;= j; n++){
+            if (n == i - 1) start = np -&gt; next;
+            else if (n == j - 1) end = np -&gt; next;
+            else if (n == j) after_end = np -&gt; next;
+            np = np -&gt; next;
+        }
+
+        node* aux = L -&gt; head;
+        L -&gt; head = start;
+        end -&gt; next = aux;
+        aux -&gt; next = after_end;
+    }
+}
+
+            </pre>
+        </section>
+        <p class="codeFile"> main.c </p>
+        <section class="codeSection">
+            <pre class="code">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "two-structs.h"
+
+int main(void){
+printf("Press h for help\n\n");
+
+int counter = 0;
+list* lists[10];
+list* L = NULL;
+
+char input;
+scanf(" %c", &input);
+
+while (input != 't'){
+    if (input == 'c'){
+        if (counter &lt; 9){
+            L = create_list();
+            lists[counter] = L;
+            counter++;
+        }
+    }
+    else if (input == 'i'){
+        double x;
+        scanf(" %lf", &x);
+        inject(L, x);
+    }
+    else if (input == 'a'){
+        double x;
+        scanf(" %lf", &x);
+        push(L, x);
+    }
+    else if (input == 'e'){
+        double x;
+        x = eject(L);
+        printf("Ejected: %.1lf\n", x);
+    }
+    else if (input == 'p'){
+        double x;
+        x = pop(L);
+        printf("Popped: %.1lf\n", x);
+    }
+    else if (input == 'k'){
+        int k;
+        double x;
+        scanf(" %d %lf", &k, &x);
+        insert_at_k(L, k, x);
+    }
+    else if (input == 'l'){
+        print_list(L);
+    }
+    else if (input == 'r'){
+        double x;
+        int k;
+        scanf(" %d", &k);
+        x = remove_at_k(L, k);
+        printf("Removed: %.1lf\n", x);
+    }
+    else if (input == 's'){
+        int n;
+        scanf(" %d", &n);
+        L = lists[n];
+    }
+    else if (input == 'd'){
+        int ans, m, n;
+        scanf(" %d %d", &m, &n);
+        ans = compare_lists(lists[m], lists[n]);
+        if (ans == 0) printf("The lists are not equal.\n");
+        else printf ("The lists are equal.\n");
+    }
+    else if (input == 'w'){
+        int i, j;
+        scanf(" %d %d", &i, &j);
+        reverse(L, i, j);
+    }
+    else if (input == 't'){
+        int i, j, k;
+        scanf(" %d %d %d", &i, &j, &k);
+        transpose(L, i, j, k);
+    }
+    else if (input == 'h'){
+        printf("Help Menu:\n");
+        printf("c: Create empty list\n");
+        printf("a x: Push x\n");
+        printf("i x: inject x\n");
+        printf("p: Pop\n");
+        printf("e: Eject\n");
+        printf("k n x: Insert x at n index\n");
+        printf("r n: Remove at n index\n");
+        printf("l: Print List\n");
+        printf("s n: Shift to list of index n\n");
+        printf("w i j: Reverse the elements between i and j\n");
+        printf("t i j k: Transposes the element between i and j to the right of k position.\n");
+        printf("d n m: Compare the lists of index n and m\n\n");
+    }
+    else {
+        printf("Invalid input.\n");
+        exit(1);
+    }
+                    
+    scanf(" %c", &input);
+    }
+
+    return 0;
+}
+                    
+            </pre>
+        </section>
+    </main>
+    <footer>
+        <div class="footerContainer">
+            <div id="footerEmailContainer">
+                <a href="#topo"> Voltar ao topo </a>
+                <p> Para enviar sugestões, correções e feedbacks: </p>
+                <address> forato120504@gmail.com </address>
+            </div>
+            <div id="footerContactsContainer">
+                <p> Outros contatos: </p>
+                <address> <img src="../../github.svg" alt="GitHub:"> ViniciusFCoracin </address>
+                <address> <img src="../../linkedin.svg" alt="LinkedIn:"> Vinicius Forato Coracin </address>
+                <address> <img src="../../insta.svg" alt="Instagram:"> @vfcoracin </address>
+            </div>
+        <p id="footerDisclaimer"> Todos os códigos desse site são de autoria própria e podem ser utilizados desde que sejam dados os devidos créditos. </p>
+        </div>
+    </footer>
+</body>
+</html>

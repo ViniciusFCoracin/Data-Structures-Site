@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Heap </title>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link rel="stylesheet" href="../../estilos.css">
+</head>
+<body id="topo"> 
+    <nav class="bigScreensMenu inCodePage">
+        <ul class="inBigScreenMenu">
+            <li class="bigMenuDropdown">
+                <a class="inBigScreenMenu"> Guias <span class="triangle"> ▼ </span></a>
+                <ul class="bigDroppedMenu">
+                    <li> <a class="inBigScreenMenu" href="../listas/main_listas.html"> Listas Encadeadas </a> </li>
+                    <li> <a class="inBigScreenMenu" href="../arvores/main_arvores.html"> Árvores </a> </li>
+                    <li> <a class="inBigScreenMenu" href="../hash table/main_hash.html"> Hash Table </a> </li>
+                    <li> <a class="inBigScreenMenu" href="../grafos/main_grafos.html"> Grafos </a> </li>
+                    <li> <a class="inBigScreenMenu" href="main_misc.html"> Outras Estruturas </a> </li>
+                    <li> <a class="inBigScreenMenu" href="../../algoritmos.html"> Algoritmos </a> </li>
+                </ul>
+            </li>
+            <li> <a class="inBigScreenMenu" href="../../index.html"> Home </a> </li>
+            <li> <a class="inBigScreenMenu" href="../../referencias.html"> Referências </a> </li>
+            <li> <a class="inBigScreenMenu" href="../../quem_sou.html"> Quem sou </a> </li>
+        </ul>
+    </nav>
+    <nav class="smallScreensMenu">
+        <input type="checkbox" class="hamburguerFakeTrigger">
+        <div class="hamburguerLines">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="mainHamburguerMenu">
+            <li>
+                <div class="trigger">
+                    <input type="checkbox" class="dropdownFakeTrigger">
+                    <a> Guias <span class="triangle"> ▼ </span></a></a>
+                    <ul class="dropdownHamburguerMenu">
+                        <li> <a href="../listas/main_listas.html"> Listas Encadeadas </a> </li>
+                        <li> <a href="../arvores/main_arvores.html"> Árvores </a> </li>
+                        <li> <a href="../hash table/main_hash.html"> Hash Table </a> </li>
+                        <li> <a href="../grafos/main_grafos.html"> Grafos </a> </li>
+                        <li> <a href="main_misc.html"> Outras Estruturas </a> </li>
+                        <li> <a href="../../algoritmos.html"> Algoritmos </a> </li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="../../index.html"> Home </a></li>
+            <li><a href="../../referencias.html"> Referências </a></li>
+            <li><a href="../../quem_sou.html"> Quem sou </a></li>
+        </ul>
+    </nav>
+    <main>
+        <h1> Heap </h1>
+        <p class="mainTexto"> heap </p>
+        <p class="mainTexto"> Confira o código da implementação abaixo: </p>
+        <p class="codeFile"> Arquivo .h </p>
+        <section class="codeSection">
+            <pre class="code">
+<code class="coment">/*
+    heap.h 
+    Define a min heap, using an array.
+    The elements are pairs (key, value), both integers.
+
+    Uses an auxiliary array to remember the index of the keys in the heap.
+    For example, if array[0] = 2, than the element of key = 0 is in the 
+    2 position in the heap. Because of this, the elements must be dense and
+    continuous. If an element with a given key is already in the array, other 
+    element with the same key won't be inserted in the heap.
+    Keys not present in the heap are marked as INT_MAX in the auxiliary array.
+</code>*/
+
+#ifndef HEAP
+#define HEAP
+
+<code class="coment">// The elements in the heap</code>
+typedef struct element{
+    int key;
+    int value;
+} element;
+
+<code class="coment">// Return the parent's index of the element in the "index" position.</code>
+int parent(int index);
+
+<code class="coment">// Return the left son's index of the element in the "index" position.</code>
+int left(int index);
+
+<code class="coment">// Return the right son's index of the element in the "index" position.</code>
+int right(int index);
+
+<code class="coment">// Heapify up the heap. Used to insert elements in the heap.</code>
+void heapify_up(element** heap, int* array, int index);
+
+<code class="coment">// Heapify down the heap. Used to pop and alter the value of an element.</code>
+void heapify_down(element** heap, int heap_size, int* array, int index);
+
+<code class="coment">// Insert the element (key, value) in the heap. If the element is </code>
+<code class="coment">// already in the heap, does nothing.</code>
+void insert(element** heap, int* heap_size, int* array, int key, int value);
+
+<code class="coment">// Pop the min element in the heap and prints it. If two elements</code>
+<code class="coment">// are equal in value, the key is used to decide which is smaller.</code>
+<code class="coment">// If the heap is empty, prints an "Empty heap" message.</code>
+void pop(element** heap, int* heap_size, int* array);
+
+<code class="coment">// Free the used memory.</code>
+void free_heap(element** heap, int heap_size);
+
+<code class="coment">// Create a heap and returns a pointer to it.</code>
+element** create_heap(int heap_size);
+
+<code class="coment">// Create an auxiliary array, which the element in the index i is the position</code>
+<code class="coment">// of the element with key i in the heap. If the element with key i isn't in the</code>
+<code class="coment">// heap, so array[i] is equal to INT_MAX. </code>
+int* create_array(int array_size);
+
+#endif
+
+            </pre>
+        </section>
+        <p class="codeFile"> Arquivo .c </p>
+        <section class="codeSection">
+            <pre class="code">
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;limits.h&gt;
+#include "heap.h"
+
+int parent(int index){
+    return (index - 1)/ 2;
+}
+
+
+int left(int index){
+    return index * 2 + 1;
+}
+
+
+int right(int index){
+    return (index + 1) * 2;
+}
+
+
+void heapify_up(element** heap, int* array, int index){
+    <code class="coment">// Stop condition</code>
+    if (index == 0) return;
+
+    int dad = parent(index);
+    <code class="coment">// If the parent's value is higher than the index's value or</code>
+    <code class="coment">// they are equal and the parent's key are higher than the index's key</code>
+    if (heap[dad] -&gt; value &gt; heap[index] -&gt; value ||
+    (heap[dad] -&gt; value == heap[index] -&gt; value && heap[dad] -&gt; key &gt; heap[index] -&gt; key)){
+        <code class="coment">// Swap dad and index in the array</code>
+        array[heap[dad] -&gt; key] = index;
+        array[heap[index] -&gt; key] = dad;
+        
+        <code class="coment">// Swap dad and index in the heap</code>
+        element* aux = heap[dad];
+        heap[dad] = heap[index];
+        heap[index] = aux;
+    }
+
+    heapify_up(heap, array, dad);
+}
+
+
+void heapify_down(element** heap, int heap_size, int* array, int index){
+    int rson = right(index);
+    int lson = left(index);
+    int smallest = index;
+
+    <code class="coment">// The next two if's chooses the smallest between rson, lson and index</code>
+    if (rson &lt; heap_size && (heap[rson] -&gt; value &lt;= heap[index] -&gt; value ||
+    (heap[rson] -&gt; value == heap[index] -&gt; value && heap[rson] -&gt; key &lt; heap[index] -&gt; key))){
+        smallest = rson;
+    }
+    if (lson &lt; heap_size && (heap[lson] -&gt; value &lt;= heap[smallest] -&gt; value ||
+    (heap[lson] -&gt; value == heap[smallest] -&gt; value && heap[lson] -&gt; key &lt; heap[smallest] -&gt; key))){
+        smallest = lson;
+    }
+
+    <code class="coment">// If the smallest isn't index</code>
+    if (smallest != index){
+        <code class="coment">// Swap smallest and index in the array</code>
+        array[heap[index] -&gt; key] = smallest;
+        array[heap[smallest] -&gt; key] = index;
+
+        <code class="coment">// Swap smallest and index in the heap</code>
+        element* aux = heap[smallest];
+        heap[smallest] = heap[index];
+        heap[index] = aux;
+        heapify_down(heap, heap_size, array, smallest);
+    }
+}
+
+
+void insert(element** heap, int* heap_size, int* array, int key, int value){
+    <code class="coment">// If the element is already in the array, it must not be inserted</code>
+    if (array[key]!= INT_MAX) return;
+
+    <code class="coment">// Adds the element in the last position and calls heapify_up</code>
+    <code class="coment">// to rearrange the heap</code>
+    element* new_element = (element*) malloc(sizeof(element));
+    if (new_element){
+        new_element -&gt; key = key;
+        new_element -&gt; value = value;
+        array[key] = ++(*heap_size);
+        heap[*heap_size] = new_element;
+        heapify_up(heap, array, *heap_size);
+    } 
+}
+
+
+void pop(element** heap, int* heap_size, int* array){
+    <code class="coment">// If the heap is empty</code>
+    if (*heap_size == -1){
+        printf("heap vazio\n");
+        return;
+    }
+
+    printf("minimo {%d,%d}\n", heap[0] -&gt; key, heap[0] -&gt; value);
+    
+    <code class="coment">// Swaps the first and the last element of the heap and</code>
+    <code class="coment">// calls heapify_down</code>
+    element* aux = heap[0];
+    heap[0] = heap[*heap_size];
+    heap[*heap_size] = aux;
+
+    heapify_down(heap, *heap_size, array, 0);
+    array[heap[*heap_size] -&gt; key] = INT_MAX;
+    (*heap_size)--;
+}
+
+
+void free_heap(element** heap, int heap_size){
+    for (int i = 0; i &lt;= heap_size; i++){
+        free(heap[i]);
+    }
+    free(heap);
+}
+
+
+element** create_heap(int heap_size){
+    element** heap = (element**) malloc(sizeof(element*) * (unsigned) heap_size);
+    return heap;
+}
+
+
+int* create_array(int array_size){
+    int* array = (int*) malloc((unsigned) array_size * sizeof(int));
+    for (int i = 0; i &lt; array_size; i++){
+        array[i] = INT_MAX;
+    }
+    return array;
+}
+
+            </pre>
+        </section>
+        <p class="codeFile"> Arquivo main </p>
+        <section class="codeSection">
+            <pre class="code">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "heap.h"
+
+int main(void){
+    element** heap = NULL;
+    int* array = NULL;
+    int heap_size = -1;
+    
+    char input;
+    scanf(" %c", &input);
+
+    while (input != 't'){
+        if (input == 'c'){
+            if (heap != NULL){
+                free_heap(heap, heap_size);
+                free(array);
+                heap_size = 0;
+            }
+
+            int heap_maxlen;
+            scanf("%d", &heap_maxlen);
+            heap = create_heap(heap_maxlen);
+            array = create_array(heap_maxlen);
+        }
+        else if (input == 'i'){
+            int key, value;
+            scanf("%d %d", &key, &value);
+            insert(heap, &heap_size, array, key, value);     
+        }
+        else if (input == 'm'){
+            pop(heap, &heap_size, array);
+        }
+
+        scanf(" %c", &input);
+    }
+    free_heap(heap, heap_size);
+    free(array);
+
+    return 0;
+}
+
+            </pre>
+        </section>
+    </main>
+    <footer>
+        <div class="footerContainer">
+            <div id="footerEmailContainer">
+                <a href="#topo"> Voltar ao topo </a>
+                <p> Para enviar sugestões, correções e feedbacks: </p>
+                <address> forato120504@gmail.com </address>
+            </div>
+            <div id="footerContactsContainer">
+                <p> Outros contatos: </p>
+                <address> <img src="../../github.svg" alt="GitHub:"> ViniciusFCoracin </address>
+                <address> <img src="../../linkedin.svg" alt="LinkedIn:"> Vinicius Forato Coracin </address>
+                <address> <img src="../../insta.svg" alt="Instagram:"> @vfcoracin </address>
+            </div>
+        <p id="footerDisclaimer"> Todos os códigos desse site são de autoria própria e podem ser utilizados desde que sejam dados os devidos créditos. </p>
+        </div>
+    </footer>
+</body>
+</html>
