@@ -258,6 +258,11 @@ p.mainTexto {
     text-indent: 3rem;
 }
 
+p.centerTexto {
+    margin-block: 1rem;
+    text-align: center;
+}
+
 section {
     text-align: center;
 }
@@ -283,7 +288,7 @@ li.liTitle {
     margin-bottom: 0.75rem;
 }
 
-li.underlined {
+a.underlined {
     text-decoration: underline;
 }
 
