@@ -1,0 +1,43 @@
+/* Estilizações de páginas com código */
+
+:root {
+    --defaultBorder: 1px solid white;
+    --codeBackground: #3a3a3a;
+    --codeTextColor: rgb(250, 189, 76);
+}
+
+section.codeSection {
+    margin-bottom: 2.5rem;
+}
+
+pre.code {
+    overflow-x: scroll;
+    font-size: 0.9rem;
+    padding: 2rem;
+    width: 60vw;
+    text-align: left;
+    background-color: var(--codeBackground);
+    margin: auto;
+    border: var(--defaultBorder);
+    border-radius: 0.5rem;
+}
+
+code.coment {
+    color: var(--codeTextColor);
+}
+
+p.codeFile {
+    padding-inline: 20vw;
+    text-align: justify;
+    margin-top: 3rem;
+}
+
+@media only screen and (max-width: 992px){
+    pre.code {
+        width: 70vw;
+    }
+
+    p.codeFile {
+        padding-inline: 15vw;
+    }
+}

@@ -1,0 +1,52 @@
+/* Estilizações de listas */
+
+ul.listOfStructs {
+    text-indent: 40%;
+    margin-block: 2rem;
+}
+
+li.liTitle {
+    text-indent: 44%;
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+}
+
+@media only screen and (max-width: 850px){
+    ul.listOfStructs {
+        text-indent: 38%;
+    }
+
+    li.liTitle {
+        text-indent: 42%;
+    }
+}
+
+@media only screen and (max-width: 700px){
+    ul.listOfStructs {
+        text-indent: 35%;
+    }
+
+    li.liTitle {
+        text-indent: 40%;
+    }
+}
+
+@media only screen and (max-width: 590px){
+    ul.listOfStructs {
+        text-indent: 32%;
+    }
+
+    li.liTitle {
+        text-indent: 37%;
+    }
+}
+
+@media only screen and (max-width: 480px){
+    ul.listOfStructs {
+        text-indent: 30%;
+    }
+
+    li.liTitle {
+        text-indent: 35%;
+    }
+}
